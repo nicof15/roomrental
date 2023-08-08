@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:package_info/package_info.dart';
 
 void main() {
   runApp(MyApp());
@@ -22,13 +21,15 @@ class MyApp extends StatelessWidget {
 }
 
 class RoomListScreen extends StatefulWidget {
+  RoomListScreen({Key? key}) : super(key: key);
+
   @override
   _RoomListScreenState createState() => _RoomListScreenState();
 }
 
 class _RoomListScreenState extends State<RoomListScreen> {
-  List<Room> _activeRooms = [];
-  List<Room> _deletedRooms = [];
+  final List<Room> _activeRooms = [];
+  final List<Room> _deletedRooms = [];
 
   void _addRoom(String name, double monthlyRent) {
     setState(() {
@@ -50,17 +51,17 @@ class _RoomListScreenState extends State<RoomListScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Add Room'),
+          title: const Text('Add Room'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
                 controller: nameController,
-                decoration: InputDecoration(labelText: 'Name'),
+                decoration: const InputDecoration(labelText: 'Name'),
               ),
               TextField(
                 controller: rentController,
-                decoration: InputDecoration(labelText: 'Monthly Rent'),
+                decoration: const InputDecoration(labelText: 'Monthly Rent'),
                 keyboardType: TextInputType.number,
               ),
             ],
@@ -70,7 +71,7 @@ class _RoomListScreenState extends State<RoomListScreen> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
             ),
             TextButton(
               onPressed: () {
@@ -83,7 +84,7 @@ class _RoomListScreenState extends State<RoomListScreen> {
 
                 Navigator.pop(context);
               },
-              child: Text('Add'),
+              child: const Text('Add'),
             ),
           ],
         );
@@ -92,20 +93,17 @@ class _RoomListScreenState extends State<RoomListScreen> {
   }
 
   Future<void> _showAppInfoDialog() async {
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-
-    // ignore: use_build_context_synchronously
     await showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('App Info'),
-          content: Column(
+          title: const Text('App Info'),
+          content: const Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('App Name: Room Rental App'),
-              Text('Version: ${packageInfo.version}'),
+              Text('App Name: Room Rental App'),
+              Text('Version: 0.1.0'),
             ],
           ),
           actions: [
@@ -113,7 +111,7 @@ class _RoomListScreenState extends State<RoomListScreen> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         );
@@ -127,19 +125,19 @@ class _RoomListScreenState extends State<RoomListScreen> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Room Rental App'),
+          title: const Text('Room Rental App'),
           actions: [
             IconButton(
-              icon: Icon(Icons.info),
+              icon: const Icon(Icons.info),
               onPressed: () {
                 _showAppInfoDialog();
               },
             ),
           ],
-          bottom: TabBar(
+          bottom: const TabBar(
             tabs: [
               Tab(text: 'Rooms'),
-              Tab(text: 'Deleted Rooms'),
+              Tab(text: 'Archived'),
             ],
           ),
         ),
@@ -148,12 +146,12 @@ class _RoomListScreenState extends State<RoomListScreen> {
             Column(
               children: [
                 Container(
-                  margin: EdgeInsets.all(10.0),
+                  margin: const EdgeInsets.all(10.0),
                   child: ElevatedButton(
                     onPressed: () {
                       _showAddRoomDialog();
                     },
-                    child: Text('Add Room'),
+                    child: const Text('Add Room'),
                   ),
                 ),
                 Expanded(
@@ -165,7 +163,7 @@ class _RoomListScreenState extends State<RoomListScreen> {
                         subtitle: Text(
                             'Monthly Rent: \$${_activeRooms[index].monthlyRent.toStringAsFixed(2)}'),
                         trailing: IconButton(
-                          icon: Icon(Icons.delete),
+                          icon: const Icon(Icons.delete),
                           onPressed: () {
                             _deleteRoom(index);
                           },
